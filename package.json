@@ -1,0 +1,48 @@
+{
+  "name": "@hekojs/core",
+  "version": "0.0.1",
+  "description": "Heko core",
+  "main": "lib/",
+  "scripts": {
+    "test": "standard \"src/**/*.js\" && jest",
+    "watch": "babel ./src --watch --out-dir ./lib",
+    "build": "babel ./src --out-dir ./lib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hekojs/core.git"
+  },
+  "author": "Anael Favre",
+  "license": "MIT",
+  "dependencies": {
+    "@colyseus/schema": "^0.5.39",
+    "ecsy": "github:MozillaReality/ecsy#dev",
+    "events": "^3.1.0",
+    "flat": "^5.0.0",
+    "gsap": "^3.2.6"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.10.1",
+    "@babel/core": "^7.10.1",
+    "@babel/node": "^7.10.1",
+    "@babel/plugin-proposal-class-properties": "^7.10.1",
+    "@babel/preset-env": "^7.10.1",
+    "babel-plugin-module-resolver": "^4.0.0",
+    "jest": "^25.5.4",
+    "nodemon": "^2.0.4",
+    "standard": "^14.3.4"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env"
+    ],
+    "plugins": [
+      [
+        "@babel/plugin-proposal-class-properties",
+        {
+          "loose": true
+        }
+      ]
+    ]
+  }
+}
