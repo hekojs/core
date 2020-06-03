@@ -22,21 +22,30 @@ export default class EntityManager {
     let entity = this.world.ecsy.entityManager.createEntity()
     entity._id = id || EntityManager.nextId++
 
+    // Hook the creation of components
+    entity.addComponent = (Component, values) => {
+      this.world.ecsy.entityManager.entityAddComponent(entity, Component, {...values, _values: values})
+      return entity
+    }
+
     // Try to configure the entity from a builder or, from the source function if set
     if (source) {
-      if (typeof source.name !== 'undefined') {
+
+      // Cleanup previous data
+      delete entity._builderName
+      delete entity._builderParams
+      delete entity.getBuilder
+
+      if (source.isEntityBuilder) {
         if (!(source.name in EntityManager.registered)) throw 'No entity builder ' + source.name + ' registered.'
-        entity = EntityManager.registered[source.name].create(entity, params)
+        EntityManager.registered[source.name].create(entity, params)
         entity._builderName = source.name
         entity._builderParams = params
         entity.getBuilder = () => {
-          return { name: source.name, params}
+          return { name: source.name, params }
         }
       } else if (typeof source === 'function') {
-        entity = source(entity)
-        delete entity._builderName
-        delete entity._builderParams
-        delete entity.getBuilder
+        source(entity)
       }
     }
 
@@ -47,7 +56,7 @@ export default class EntityManager {
     return entity
   }
 
-  exists(id) {
+  exists (id) {
     return id in this.entities
   }
 
@@ -55,7 +64,7 @@ export default class EntityManager {
     return this.entities[id]
   }
 
-  all() {
+  all () {
     return Object.values(this.entities)
   }
 
