@@ -41,7 +41,7 @@ export default class ComponentManager {
 
       this.components[component._id] = component
       if ('onTick' in component) this.withOnTick[component._id] = component
-      if ('onAdd' in component) component.onAdd()
+      if ('onAdd' in component) component.onAdd(component._values)
       this.world.events.emit('added.component', { entity, Component, component })
     })
   }
